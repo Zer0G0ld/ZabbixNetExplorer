@@ -1,17 +1,17 @@
 # ZabbixNetExplorer
 
-Este é um script Python para realizar um **scan de rede** em busca de dispositivos ativos e verificar se eles estão rodando o **Zabbix Agent**. Ele coleta informações como **hostname** e **sistema operacional** dos dispositivos encontrados, e salva essas informações em arquivos separados.
+Este script Python realiza um **scan de rede** para detectar dispositivos ativos e verificar se estão executando o **Zabbix Agent**. O script coleta informações como **hostname** e **sistema operacional** dos dispositivos encontrados e salva essas informações em arquivos separados.
 
 ## Descrição
 
-O script foi desenvolvido para facilitar a descoberta de dispositivos em uma rede local e verificar sua compatibilidade com o **Zabbix**, um sistema de monitoramento de rede. A principal funcionalidade é identificar quais dispositivos têm o Zabbix Agent ativo, além de coletar informações sobre cada máquina, como **nome do host** e **sistema operacional**.
+O **ZabbixNetExplorer** facilita a descoberta de dispositivos em uma rede local e verifica sua compatibilidade com o **Zabbix** (um sistema de monitoramento de rede). A principal funcionalidade do script é identificar dispositivos que possuem o Zabbix Agent ativo e coletar dados sobre cada máquina, como **nome do host** e **sistema operacional**.
 
-Ao final da execução, o script gera dois arquivos de saída com a listagem de dispositivos:
+Após a execução, o script gera dois arquivos de saída com a listagem de dispositivos:
 
 - **ZabbixOnDevices.txt**: Contém os dispositivos com Zabbix Agent ativo.
 - **ZabbixOffDevices.txt**: Contém os dispositivos sem Zabbix Agent ativo.
 
-Além disso, ele exibe um resumo no console com a quantidade de dispositivos ativos e inativos, além de uma contagem dos hosts por sistema operacional.
+Além disso, um resumo é exibido no console, indicando a quantidade de dispositivos ativos e inativos, bem como a contagem de hosts por sistema operacional.
 
 ## Requisitos
 
@@ -19,46 +19,116 @@ Para executar o script, você precisa garantir que o ambiente de desenvolvimento
 
 - **Python 3.6 ou superior**.
 - Bibliotecas Python necessárias:
-  - **nmap**: Para realizar a verificação do sistema operacional dos dispositivos.
+  - **nmap**: Para verificar o sistema operacional dos dispositivos.
   - **scapy**: Para realizar o scan de rede usando pacotes ARP.
-  
-### Instalação das dependências:
 
-Você pode instalar as bibliotecas necessárias com o seguinte comando:
+### Instalação das dependências
+
+Para instalar as bibliotecas necessárias, execute:
 
 ```bash
 pip install python-nmap scapy
 ```
 
+## Criando um Ambiente Virtual
+
+### Passo 1: Instalar o Python
+
+O script foi desenvolvido para **Python 3.6 ou superior**. Verifique sua versão com:
+
+```bash
+python --version
+```
+
+Se necessário, baixe e instale o Python [aqui](https://www.python.org/downloads/).
+
+### Passo 2: Criar um Ambiente Virtual
+
+1. **Abra o terminal** (ou prompt de comando no Windows).
+2. **Navegue até o diretório do seu projeto**:
+
+   ```bash
+   cd /caminho/para/seu/projeto
+   ```
+
+3. **Crie o ambiente virtual**:
+
+   - No Linux/macOS:
+
+     ```bash
+     python3 -m venv venv
+     ```
+
+   - No Windows:
+
+     ```bash
+     python -m venv venv
+     ```
+
+   Isso cria a pasta `venv` com o ambiente virtual.
+
+### Passo 3: Ativar o Ambiente Virtual
+
+- No Linux/macOS:
+
+  ```bash
+  source venv/bin/activate
+  ```
+
+- No Windows:
+
+  ```bash
+  .\venv\Scripts\activate
+  ```
+
+Após ativar, seu prompt de comando mudará para indicar que o ambiente virtual está ativo.
+
+### Passo 4: Instalar as Dependências
+
+Se você tiver um arquivo `requirements.txt`, instale as dependências com:
+
+```bash
+pip install -r requirements.txt
+```
+
+Caso contrário, use os comandos para instalar as bibliotecas necessárias diretamente:
+
+```bash
+pip install python-nmap scapy
+```
+
+### Passo 5: Desativar o Ambiente Virtual
+
+Para desativar o ambiente virtual:
+
+```bash
+deactivate
+```
+
+### Passo 6: Recriar o Ambiente Virtual
+
+Se necessário, recrie o ambiente virtual:
+
+1. Crie o ambiente virtual (Passo 2).
+2. Instale as dependências com `pip install -r requirements.txt` (Passo 4).
+
 ## Como Usar
 
 ### Passo 1: Preparação do Ambiente
 
-Antes de executar o script, é necessário garantir que as dependências estejam instaladas em seu ambiente de desenvolvimento. Para isso, siga as etapas abaixo:
+Antes de executar o script, instale as dependências e verifique se o Python 3.6+ está corretamente instalado.
 
-1. **Instalar Python 3.6 ou superior**: O script é compatível com o Python 3.6 ou versões superiores. Caso ainda não tenha o Python instalado, você pode baixá-lo e instalá-lo [aqui](https://www.python.org/downloads/).
+### Passo 2: Modificar a Faixa de IP (opcional)
 
-2. **Instalar as dependências do script**: O script usa as bibliotecas `nmap` e `scapy`. Para instalá-las, execute os seguintes comandos no terminal:
-
-   ```bash
-   pip install python-nmap scapy
-   ```
-
-### Passo 2: Modificar o Código (opcional)
-
-O script está configurado para escanear a rede **`192.168.1.0/24`** por padrão. Caso sua rede tenha uma faixa de IP diferente, edite a variável `ip_range` no código para refletir a faixa de IP que você deseja escanear.
-
-No script, altere esta linha para ajustar o intervalo de IPs:
+O script escaneia a rede **`192.168.1.0/24`** por padrão. Para modificar a faixa de IP, altere a variável `ip_range` no código:
 
 ```python
-ip_range = "192.168.1.0/24"  # Exemplo de rede padrão
+ip_range = "192.168.1.0/24"  # Substitua pela faixa de IP da sua rede
 ```
-
-Substitua `"192.168.1.0/24"` pela faixa de IP da sua rede.
 
 ### Passo 3: Executando o Script
 
-Agora que o ambiente está preparado, você pode executar o script. No terminal, navegue até o diretório onde o arquivo do script está localizado e execute o seguinte comando:
+No terminal, navegue até o diretório do script e execute:
 
 ```bash
 python network_scanner.py
@@ -66,55 +136,49 @@ python network_scanner.py
 
 ### Passo 4: Interação Inicial
 
-Ao executar o script, ele irá exibir uma mensagem explicativa sobre sua funcionalidade. O usuário será solicitado a confirmar se deseja continuar com o escaneamento da rede:
+O script solicitará confirmação antes de iniciar o escaneamento:
 
 ```
-Este script é para vasculhar a rede e buscar dados para automatizar a adição de hosts no Zabbix.
-Vamos fazer um scan na sua rede procurando por IPs ativos e verificar se ele tem o Zabbix.
-Vamos procurar também o nome de cada máquina com seu respectivo IP e MAC, buscando o nome e o sistema operacional dela.
-
-Concorda com isso? Sim[S] ou Não[N]:
+Este script realiza o scan da rede e verifica quais dispositivos têm o Zabbix Agent ativo. Concorda com isso? (S/N)
 ```
 
-Digite **`S`** para continuar ou **`N`** para cancelar o processo.
+Digite **`S`** para continuar ou **`N`** para cancelar.
 
 ### Passo 5: Acompanhando o Processo
 
-Se você escolher **`S`** para continuar, o script começará o escaneamento da rede especificada (por padrão, `192.168.1.0/24`) para identificar dispositivos ativos. Durante o processo, o script enviará pacotes ARP para a rede e aguardará as respostas dos dispositivos conectados.
-
-O script também verificará se o **Zabbix Agent** está ativo em cada dispositivo, tentando conectar à porta **`10050`** de cada IP encontrado. Se o agente estiver ativo, o dispositivo será marcado como "Ativo" e será registrado no arquivo **ZabbixOnDevices.txt**. Caso contrário, ele será marcado como "Inativo" e registrado no **ZabbixOffDevices.txt**.
+Após a confirmação, o script inicia o scan da rede, utilizando pacotes ARP para identificar dispositivos ativos e verificando a presença do Zabbix Agent na porta **`10050`**. Dispositivos com o Zabbix Agent ativo são salvos no arquivo **ZabbixOnDevices.txt** e os inativos em **ZabbixOffDevices.txt**.
 
 ### Passo 6: Resultado Final
 
-Após o escaneamento, o script exibirá um resumo no console com as seguintes informações:
+Após o scan, o script exibe no console:
 
 - A faixa de IP escaneada.
 - O número total de dispositivos encontrados.
-- O número de dispositivos com **Zabbix Agent** ativo.
-- O número de dispositivos sem **Zabbix Agent**.
-- Uma contagem de dispositivos por **sistema operacional**.
+- O número de dispositivos com Zabbix Agent ativo.
+- O número de dispositivos sem Zabbix Agent.
+- A contagem de dispositivos por **sistema operacional**.
 
-Além disso, ele gerará dois arquivos de saída:
+Arquivos gerados:
 
-- **ZabbixOnDevices.txt**: Contém os dispositivos com Zabbix Agent ativo.
-- **ZabbixOffDevices.txt**: Contém os dispositivos sem Zabbix Agent.
+- **ZabbixOnDevices.txt**: Dispositivos com Zabbix Agent ativo.
+- **ZabbixOffDevices.txt**: Dispositivos sem Zabbix Agent.
 
 #### Exemplo de Saída no Console:
 
 ```
 Resumo do Scan:
-Range escaneado: 192.168.1.0/24
+Faixa escaneada: 192.168.1.0/24
 Dispositivos encontrados: 5
 Ativos com Zabbix: 3
 Inativos sem Zabbix: 2
 
-Quantidade de hosts por Sistema Operacional:
-Linux: 2 hosts
-Windows: 1 host
-Desconhecido: 2 hosts
+Hosts por Sistema Operacional:
+Linux: 2
+Windows: 1
+Desconhecido: 2
 ```
 
-#### Exemplo de Arquivo de Saída **ZabbixOnDevices.txt**:
+#### Exemplo de Arquivo **ZabbixOnDevices.txt**:
 
 ```
 Dispositivos com Zabbix Agent:
@@ -122,7 +186,7 @@ Dispositivo1 - Sistema Operacional: Linux
 Dispositivo2 - Sistema Operacional: Windows
 ```
 
-#### Exemplo de Arquivo de Saída **ZabbixOffDevices.txt**:
+#### Exemplo de Arquivo **ZabbixOffDevices.txt**:
 
 ```
 Dispositivos sem Zabbix Agent:
@@ -132,55 +196,45 @@ Dispositivo4 - Sistema Operacional: Windows
 
 ### Passo 7: Análise de Resultados
 
-Após a execução do script, você pode abrir os arquivos **ZabbixOnDevices.txt** e **ZabbixOffDevices.txt** para revisar quais dispositivos têm o Zabbix Agent ativo e quais não têm. Esses arquivos podem ser utilizados para automatizar a adição de hosts no Zabbix, ou para outras ações de gerenciamento de rede.
+Revise os arquivos gerados para identificar dispositivos com o Zabbix Agent ativo e para automatizar a adição de hosts no Zabbix.
 
 ## Estrutura do Código
 
-1. **Função `setup()`**: Inicia o script, solicita a confirmação do usuário e inicia o processo de escaneamento e verificação dos dispositivos.
-2. **Função `create_files()`**: Cria os arquivos **ZabbixOnDevices.txt** e **ZabbixOffDevices.txt** para armazenar os dispositivos com e sem Zabbix Agent.
-3. **Função `scan_network(ip_range)`**: Realiza o scan da rede usando pacotes ARP para identificar dispositivos ativos.
-4. **Função `data_machine_ip(ip)`**: Usa o `nmap` para coletar informações sobre o sistema operacional e hostname do dispositivo.
-5. **Função `check_zabbix_agent(ip)`**: Verifica se o Zabbix Agent está ativo no dispositivo, tentando conectar à porta `10050`.
-6. **Função `add_to_files(ip, mac, status)`**: Adiciona as informações dos dispositivos encontrados nos arquivos de saída.
+1. **`setup()`**: Inicia o script, solicita confirmação do usuário e inicia o processo de escaneamento.
+2. **`create_files()`**: Cria os arquivos de saída **ZabbixOnDevices.txt** e **ZabbixOffDevices.txt**.
+3. **`scan_network(ip_range)`**: Realiza o scan de rede usando pacotes ARP.
+4. **`data_machine_ip(ip)`**: Usa `nmap` para obter informações sobre o sistema operacional e hostname.
+5. **`check_zabbix_agent(ip)`**: Verifica a presença do Zabbix Agent na porta **10050**.
+6. **`add_to_files(ip, mac, status)`**: Registra informações sobre os dispositivos nos arquivos de saída.
 
 ## Personalização
 
-Você pode ajustar a faixa de IP que o script irá escanear alterando a variável `ip_range`. No exemplo abaixo, a faixa está configurada para `192.168.1.0/24`, mas você pode modificá-la conforme a sua rede:
+Você pode ajustar a faixa de IP no código:
 
 ```python
-ip_range = "192.168.1.0/24"  # Exemplo de rede padrão
+ip_range = "192.168.1.0/24"  # Alterar para a faixa de IP da sua rede
 ```
 
 ## Exemplo de Execução
 
-1. Inicie o script:
+1. Execute o script:
 
 ```bash
 python network_scanner.py
 ```
 
-2. Após a execução, você verá o seguinte no console:
+2. Confirme a execução com **`S`** ou **`N`**.
 
-```
-Este script é para vasculhar a rede e buscar dados para automatizar a adição de hosts no Zabbix.
-Vamos fazer um scan na sua rede procurando por IPs ativos e verificar se ele tem o Zabbix.
-Vamos procurar também o nome de cada máquina com seu respectivo IP e MAC, buscando o nome e o sistema operacional dela.
-
-Concorda com isso? Sim[S] ou Não[N]:
-```
-
-Digite "S" para continuar ou "N" para cancelar.
-
-Após a execução, os arquivos **ZabbixOnDevices.txt** e **ZabbixOffDevices.txt** serão gerados com as informações dos dispositivos encontrados.
+Após a execução, os arquivos **ZabbixOnDevices.txt** e **ZabbixOffDevices.txt** serão gerados com as informações dos dispositivos.
 
 ## Logs e Debugging
 
-Durante a execução, o script faz uso do módulo `logging` para capturar detalhes sobre a execução e possíveis erros. Você pode ajustar o nível de log se necessário, alterando a configuração do `logging.basicConfig`.
+O script utiliza o módulo `logging` para capturar erros e detalhes da execução. Você pode ajustar o nível de log, se necessário.
 
 ## Contribuindo
 
-Se você deseja contribuir para este projeto, fique à vontade para abrir pull requests ou relatar problemas através do GitHub.
+Se quiser contribuir, envie pull requests ou abra issues no GitHub.
 
 ## Licença
 
-Este projeto é licenciado sob a **GNU General Public License v3.0** - veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
+Este projeto está licenciado sob a **GNU General Public License v3.0**. Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
